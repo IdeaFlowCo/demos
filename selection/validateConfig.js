@@ -8,10 +8,11 @@ exec(nodeCmd, function(error, stdout, stderr) {
     // (format) v0.12.33 or v4.2.1 or v6.2.2 
     var parsedVersion = /v(\d+)\.(\d+)\.(\d+)/.exec(stdout)
     var mainVersionNumber = +parsedVersion[1]
-    var fullVersionNumber = parsedVersion[0]
-    // ensure node v6 or higher
-    if (mainVersionNumber < 6) {
-      console.error('Node Version too low [expected > 6] got: ', fullVersionNumber)
+    var fullVersionNumber = parsedVersion[0].trim()
+
+    // ensure node v6.2.2
+    if (fullVersionNumber !== 'v6.2.2') {
+      console.error('Node Version does not match [expected v6.2.2] got: ', fullVersionNumber)
       process.exit(1)
     }
     else {
