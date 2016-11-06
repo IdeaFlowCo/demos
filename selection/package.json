@@ -44,7 +44,6 @@
     "react-router": "2.8.1",
     "rucksack-css": "0.8.6",
     "shrinkpack": "0.17.0",
-    "snapsvg": "0.4.0",
     "source-map-loader": "0.1.5",
     "style-loader": "0.13.1",
     "stylus": "0.54.5",
