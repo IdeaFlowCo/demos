@@ -1,0 +1,55 @@
+{
+  "name": "snap-playgrond",
+  "version": "0.0.1",
+  "description": "My SVG generation platform",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --env.prod -p",
+    "preinstall": "node validateConfig.js",
+    "prestart": "node validateConfig.js",
+    "yarn": "yarn",
+    "yarnadd": "yarn add",
+    "start": "webpack-dev-server --inline --hot --env.dev --host 0.0.0.0",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjgil/snapPlayground.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mjgil/snapPlayground/issues"
+  },
+  "homepage": "https://github.com/mjgil/snapPlayground#readme",
+  "dependencies": {
+    "babel-core": "6.17.0",
+    "babel-loader": "6.2.5",
+    "babel-preset-es2015": "6.16.0",
+    "babel-preset-react": "6.16.0",
+    "babel-preset-stage-0": "6.16.0",
+    "css-loader": "0.25.0",
+    "file-loader": "0.9.0",
+    "font-loader": "0.1.2",
+    "if-env": "1.0.0",
+    "imports-loader": "0.6.5",
+    "json-loader": "0.5.4",
+    "linked-map": "ssh://github.com/IdeaFlowCo/LinkedMap.git",
+    "postcss": "5.2.4",
+    "postcss-loader": "0.13.0",
+    "poststylus": "0.2.3",
+    "rangy": "1.3.0",
+    "react": "15.3.2",
+    "react-dom": "15.3.2",
+    "react-router": "2.8.1",
+    "rucksack-css": "0.8.6",
+    "shrinkpack": "0.17.0",
+    "source-map-loader": "0.1.5",
+    "style-loader": "0.13.1",
+    "stylus": "0.54.5",
+    "stylus-loader": "2.3.1",
+    "uuid": "2.0.3",
+    "webpack": "2.1.0-beta.22",
+    "webpack-dev-server": "2.1.0-beta.5"
+  }
+}

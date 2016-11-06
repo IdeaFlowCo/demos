@@ -1,0 +1,22 @@
+/node_modules
+/jspm_packages
+/build
+/static/**
+/coverage
+**/.DS_Store
+npm-debug.log
+deps.js
+
+**.sublime-project
+**.sublime-workspace
+
+# eclipse
+.settings/
+.project
+
+# webstorm
+.idea/
+
+*.sw*
+tags
+/node_cache
