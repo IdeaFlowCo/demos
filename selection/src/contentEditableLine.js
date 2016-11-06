@@ -19,15 +19,19 @@ class ContentEditableLine extends React.Component {
 
   handleClick() {
     const { node, changeName } = this.props
-    changeName(node.id)
+    if (node.isContentEditable) {
+      changeName(node.id)
+    }
   }
 
   componentDidUpdate() {
     const { selection, node } = this.props
-    const domNode = ReactDOM.findDOMNode(this)
-    if (selection.nodeId === node.id) {
-      setCharRange(domNode, selection)
-      domNode.focus()
+    if (node.isContentEditable) {
+      const domNode = ReactDOM.findDOMNode(this)
+      if (selection.nodeId === node.id) {
+        setCharRange(domNode, selection)
+        domNode.focus()
+      }
     }
   }
 
@@ -35,7 +39,7 @@ class ContentEditableLine extends React.Component {
     const { node, changeName } = this.props
 
     return <div
-            contentEditable
+            contentEditable={node.isContentEditable}
             className={styles.contenteditableLine}
             onClick={::this.handleClick}
           >

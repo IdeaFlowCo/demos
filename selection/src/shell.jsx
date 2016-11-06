@@ -12,15 +12,16 @@ class Shell extends React.Component {
     const id3 = uuid.v4()
     this.state = {
       nodes: Map({
-        [id1]: {id: id1, name: 'malcom'},
-        [id2]: {id: id2, name: 'jacob'},
-        [id3]: {id: id3, name: 'ali'}
+        [id1]: {id: id1, name: 'malcom', isContentEditable: true},
+        [id2]: {id: id2, name: 'jacob', isContentEditable: true},
+        [id3]: {id: id3, name: 'ali', isContentEditable: true}
       }),
       selection: {
         nodeId: id1,
         start: 2,
         end: 2
-      }
+      },
+      containerIsContentEditable: false
     }
   }
 
@@ -30,18 +31,56 @@ class Shell extends React.Component {
 
   changeName(id, selection) {
     const newState = {
-      nodes: this.state.nodes.set(id, {id, name: '12345678'}),
-      selection: selection || this.state.selection
+      nodes: this.state.nodes.set(id, {id, name: '12345678', isContentEditable: true}),
+      selection: selection || this.state.selection,
+      containerIsContentEditable: this.state.containerIsContentEditable
     }
-    console.log('new selection', newState.selection)
     this.setState(newState)
+  }
+
+  getContainer() {
+    return this.refs['container']
+  }
+
+  makeParentContentEditable() {
+    const newState = {
+      nodes: this.state.nodes.map(node => Object.assign({}, node, {isContentEditable: false})),
+      selection: this.state.selection,
+      containerIsContentEditable: true
+    }
+    this.setState(newState)
+  }
+
+  makeNodesContentEditable() {
+
+    const newState = {
+      nodes: this.state.nodes.map(node => Object.assign({}, node, {isContentEditable: true})),
+      selection: this.state.selection,
+      containerIsContentEditable: false
+    }
+    this.setState(newState)
+  }
+
+  handleMouseDown() {
+    this.makeParentContentEditable()
+  }
+
+  handleMouseUp() {
+    this.makeNodesContentEditable()
   }
 
   render() {
     return <div className={styles.main}>
       <div className={styles.sidebar}>
       </div>
-      <div className={styles.content} >
+      <div 
+        className={styles.content} 
+        contentEditable={this.state.containerIsContentEditable}
+        ref='container'
+
+        onMouseDown={::this.handleMouseDown}
+        onMouseUp={::this.handleMouseUp}
+      >
         <div className={styles.lineWrapper}>
           {this.state.nodes.map(node => (
             <ContentEditableLine 
