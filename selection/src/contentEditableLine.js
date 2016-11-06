@@ -1,5 +1,8 @@
 import React from 'react'
 import styles from './shell.styl'
+import { setCharRange } from './selectionModel'
+import ReactDOM from 'react-dom'
+
 
 class ContentEditableLine extends React.Component {
   constructor(props) {
@@ -7,18 +10,36 @@ class ContentEditableLine extends React.Component {
   }
 
   componentDidMount() {
-
+    // const { selection, node } = this.props
+    // const domNode = ReactDOM.findDOMNode(this)
+    // if (selection.nodeId === node.id) {
+    //   restoreCustomBookMark(domNode, selection)
+    // }
   }
 
-  shouldComponentUpdate() {
+  handleClick() {
+    const { node, changeName } = this.props
+    changeName(node.id)
+  }
+
+  componentDidUpdate() {
+    const { selection, node } = this.props
+    const domNode = ReactDOM.findDOMNode(this)
+    if (selection.nodeId === node.id) {
+      setCharRange(domNode, selection)
+      domNode.focus()
+    }
   }
 
   render() {
-    console.log('this.props.node.name', this.props.node.name)
+    const { node, changeName } = this.props
+
     return <div
             contentEditable
-            className={styles.contenteditableLine}>
-            {this.props.node.name}
+            className={styles.contenteditableLine}
+            onClick={::this.handleClick}
+          >
+            {node.name}
           </div>
   }
 }

@@ -4,10 +4,17 @@ import { Router, Route, Redirect, IndexRedirect, browserHistory } from 'react-ro
 import Shell from './shell'
 
 if (module.hot) module.hot.accept()
+  
+console.error = (function(_error) {
+  return function(message) {
+    if (typeof message !== 'string' || message.indexOf('component is `contentEditable`') === -1) {
+      _error.apply(console, arguments)
+    }
+  }
+})(console.error)
+
 
 ReactDOM.render(
   <Shell />,
   document.getElementById('root')
 );
-
-
