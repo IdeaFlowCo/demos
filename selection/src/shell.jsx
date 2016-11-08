@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './shell.styl'
 import uuid from 'uuid'
+import { setCharRange, restoreCustomBookMark, getSelection, getCurrentBookMark } from './selectionModel'
 import { Map } from 'immutable'
 import ContentEditableLine from './contentEditableLine'
 
@@ -29,6 +30,14 @@ class Shell extends React.Component {
 
   }
 
+  componentDidUpdate() {
+    const container = this.getContainer()
+    const isEditable = this.state.containerIsContentEditable
+    console.log('document.active -- before comDidUpdate', isEditable, document.activeElement)
+    if (isEditable) container.focus()
+    console.log('document.active -- after comDidUpdate', document.activeElement)
+  }
+
   changeName(id, selection) {
     const newState = {
       nodes: this.state.nodes.set(id, {id, name: '12345678', isContentEditable: true}),
@@ -55,9 +64,12 @@ class Shell extends React.Component {
     const newState = {
       nodes: this.state.nodes.map(node => Object.assign({}, node, {isContentEditable: true})),
       selection: this.state.selection,
-      containerIsContentEditable: false
+      containerIsContentEditable: null
     }
     this.setState(newState)
+    const container = this.getContainer()
+    console.log('container', container.contentEditable, container, container.setAttribute)
+    container.setAttribute('contentEditable', null)
   }
 
   handleMouseDown() {
@@ -70,13 +82,29 @@ class Shell extends React.Component {
 
   handleKeyDown(e) {
     console.log(e.keyCode)
+    const selection = getSelection()
+    console.log(selection.anchorNode, selection.anchorOffset)
+    const domNode = this.refs['container']
     if (e.keyCode === 220) { // \
       if (this.state.containerIsContentEditable) {
+        // const bookmark = getCurrentBookMark()
         this.makeNodesContentEditable()
+        // if (document.activeElement != document.body) document.activeElement.blur()
+        // domNode.focus()
+        // restoreCustomBookMark(bookmark)
       }
       else {
+        // const bookmark = getCurrentBookMark()
         this.makeParentContentEditable()
+        // if (document.activeElement != document.body) document.activeElement.blur()
+        // console.log('domNode', domNode)
+        // restoreCustomBookMark(bookmark)
       }
+    }
+
+    if (e.keyCode === 221) {
+      setCharRange(domNode, {start: 4, end: 4})
+      domNode.focus()
     }
     console.log('this.state', this.state)
     console.log('this.state', this.state.nodes.toJS())

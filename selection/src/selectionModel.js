@@ -183,6 +183,13 @@ export const setSelectionFromCoordinates = (coordinates) => {
   selection.setSingleRange(range)
 }
 
+export const resetSingleSelection = (domNode) => {
+  console.log('resetSingleSelection')
+  const selectionCoords = getSelectionCoords();
+
+  setCharRange(domNode, selectionCoords)
+}
+
 export const removeSpecialChars = (text) => {
   return text.replace(/^\s/, '').replace(/[,]+$/, '')
 }
@@ -193,6 +200,15 @@ export const removeZeroWidthSpace = (text) => {
 
 export const isZeroWidthSpace = (text) => {
   return text === '\u200b';
+}
+
+export const getRelativeBookMark = (anchorNode) => {
+  const {start, end} = getCharRange(anchorNode)
+  return {
+    anchorNode,
+    start,
+    end
+  }
 }
 
 export const getCustomBookMark = (sel) => {
@@ -208,6 +224,11 @@ export const getCustomBookMark = (sel) => {
     start,
     end
   }
+}
+
+export const getCurrentBookMark = () => {
+  const sel = getSelection()
+  return getCustomBookMark(sel)
 }
 
 export const restoreCustomBookMark = (bookmark) => {

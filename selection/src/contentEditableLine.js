@@ -26,13 +26,13 @@ class ContentEditableLine extends React.Component {
 
   componentDidUpdate() {
     const { selection, node } = this.props
-    // if (node.isContentEditable) {
-    //   const domNode = ReactDOM.findDOMNode(this)
-    //   if (selection.nodeId === node.id) {
-    //     setCharRange(domNode, selection)
-    //     domNode.focus()
-    //   }
-    // }
+    if (node.isContentEditable) {
+      const domNode = ReactDOM.findDOMNode(this)
+      if (selection.nodeId === node.id) {
+        setCharRange(domNode, selection)
+        domNode.focus()
+      }
+    }
   }
 
   render() {
