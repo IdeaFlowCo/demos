@@ -24,6 +24,10 @@ class ContentEditableLine extends React.Component {
     }
   }
 
+  handleKeyDown() {
+    console.log('handle key down -- content line')
+  }
+
   componentDidUpdate() {
     const { selection, node } = this.props
     if (node.isContentEditable) {
@@ -42,6 +46,7 @@ class ContentEditableLine extends React.Component {
             contentEditable={node.isContentEditable}
             className={styles.contenteditableLine}
             onClick={::this.handleClick}
+            onKeyDown={::this.handleKeyDown}
           >
             {node.name}
           </div>

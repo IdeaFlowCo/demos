@@ -81,7 +81,7 @@ class Shell extends React.Component {
   }
 
   handleKeyDown(e) {
-    console.log(e.keyCode)
+    console.log('container', e.keyCode)
     const selection = getSelection()
     console.log(selection.anchorNode, selection.anchorOffset)
     const domNode = this.refs['container']
@@ -102,9 +102,13 @@ class Shell extends React.Component {
       }
     }
 
-    if (e.keyCode === 221) {
+    if (e.keyCode === 221) { //]
       setCharRange(domNode, {start: 4, end: 4})
       domNode.focus()
+    }
+
+    if (e.keyCode === 40) { // down arrow
+      this.makeParentContentEditable()
     }
     console.log('this.state', this.state)
     console.log('this.state', this.state.nodes.toJS())
