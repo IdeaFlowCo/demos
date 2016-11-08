@@ -25,7 +25,7 @@ class Shell extends React.Component {
         end: 2
       },
       containerIsContentEditable: true,
-      rawSelection: getSelection()
+      rawSelection: {}
     }
   }
 

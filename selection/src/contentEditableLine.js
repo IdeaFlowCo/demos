@@ -17,13 +17,6 @@ class ContentEditableLine extends React.Component {
     // }
   }
 
-  handleClick() {
-    const { node, changeName } = this.props
-    if (node.isContentEditable) {
-      changeName(node.id)
-    }
-  }
-
   handleKeyDown(e) {
     console.log('handle key down -- content line')
     if (e.keyCode === 13) { // enter
@@ -43,12 +36,11 @@ class ContentEditableLine extends React.Component {
   }
 
   render() {
-    const { node, changeName } = this.props
+    const { node } = this.props
 
     return <div
             contentEditable={node.isContentEditable}
             className={styles.contenteditableLine}
-            onClick={::this.handleClick}
             onKeyDown={::this.handleKeyDown}
           >
             {node.name ? node.name : <br/>}
