@@ -42,16 +42,6 @@ class Shell extends React.Component {
     console.log('compDidUpdate -- nodes', this.state.nodes.toJS())
   }
 
-  changeName(id, selection) {
-    const newState = {
-      nodes: this.state.nodes.set(id, {id, name: '12345678', isContentEditable: true}),
-      selection: selection || this.state.selection,
-      containerIsContentEditable: this.state.containerIsContentEditable,
-      rawSelection: getSelection()
-    }
-    this.setState(newState)
-  }
-
   getContainer() {
     return this.refs['container']
   }
@@ -165,7 +155,6 @@ class Shell extends React.Component {
               node={node}
               selection={this.state.selection}
               rawSelection={this.state.rawSelection}
-              changeName={::this.changeName}
               createNode={::this.createNode}
             />
           ))}
