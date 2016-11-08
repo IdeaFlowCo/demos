@@ -68,6 +68,10 @@ class Shell extends React.Component {
     this.makeNodesContentEditable()
   }
 
+  handleKeyDown(e) {
+    console.log(e.keyCode)
+  }
+
   render() {
     return <div className={styles.main}>
       <div className={styles.sidebar}>
@@ -79,6 +83,7 @@ class Shell extends React.Component {
 
         onMouseDown={::this.handleMouseDown}
         onMouseUp={::this.handleMouseUp}
+        onKeyDown={::this.handleKeyDown}
       >
         <div className={styles.lineWrapper}>
           {this.state.nodes.map(node => (

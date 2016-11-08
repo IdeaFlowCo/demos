@@ -12,16 +12,16 @@ class Shell extends React.Component {
     const id3 = uuid.v4()
     this.state = {
       nodes: Map({
-        [id1]: {id: id1, name: 'malcom', isContentEditable: true},
-        [id2]: {id: id2, name: 'jacob', isContentEditable: true},
-        [id3]: {id: id3, name: 'ali', isContentEditable: true}
+        [id1]: {id: id1, name: 'malcom', isContentEditable: null},
+        [id2]: {id: id2, name: 'jacob', isContentEditable: null},
+        [id3]: {id: id3, name: 'ali', isContentEditable: null}
       }),
       selection: {
         nodeId: id1,
         start: 2,
         end: 2
       },
-      containerIsContentEditable: false
+      containerIsContentEditable: true
     }
   }
 
@@ -44,7 +44,7 @@ class Shell extends React.Component {
 
   makeParentContentEditable() {
     const newState = {
-      nodes: this.state.nodes.map(node => Object.assign({}, node, {isContentEditable: false})),
+      nodes: this.state.nodes.map(node => Object.assign({}, node, {isContentEditable: null})),
       selection: this.state.selection,
       containerIsContentEditable: true
     }
@@ -61,11 +61,25 @@ class Shell extends React.Component {
   }
 
   handleMouseDown() {
-    this.makeParentContentEditable()
+    // this.makeParentContentEditable()
   }
 
   handleMouseUp() {
-    this.makeNodesContentEditable()
+    // this.makeNodesContentEditable()
+  }
+
+  handleKeyDown(e) {
+    console.log(e.keyCode)
+    if (e.keyCode === 220) { // \
+      if (this.state.containerIsContentEditable) {
+        this.makeNodesContentEditable()
+      }
+      else {
+        this.makeParentContentEditable()
+      }
+    }
+    console.log('this.state', this.state)
+    console.log('this.state', this.state.nodes.toJS())
   }
 
   render() {
@@ -79,6 +93,7 @@ class Shell extends React.Component {
 
         onMouseDown={::this.handleMouseDown}
         onMouseUp={::this.handleMouseUp}
+        onKeyDown={::this.handleKeyDown}
       >
         <div className={styles.lineWrapper}>
           {this.state.nodes.map(node => (
