@@ -107,7 +107,7 @@ class Shell extends React.Component {
       domNode.focus()
     }
 
-    if (e.keyCode === 40) { // down arrow
+    if (~[37,38,39,40,16,17,18,224].indexOf(e.keyCode)) { // down arrow
       this.makeParentContentEditable()
     }
     console.log('this.state', this.state)
