@@ -11,10 +11,12 @@ class Shell extends React.Component {
     const id1 = uuid.v4()
     const id2 = uuid.v4()
     const id3 = uuid.v4()
+    const id4 = uuid.v4()
     this.state = {
       nodes: Map({
         [id1]: {id: id1, name: 'malcom', isContentEditable: null},
         [id2]: {id: id2, name: 'jacob', isContentEditable: null},
+        [id4]: {id: id4, name: '', isContentEditable: null},
         [id3]: {id: id3, name: 'ali', isContentEditable: null}
       }),
       selection: {

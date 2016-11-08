@@ -48,7 +48,7 @@ class ContentEditableLine extends React.Component {
             onClick={::this.handleClick}
             onKeyDown={::this.handleKeyDown}
           >
-            {node.name}
+            {node.name ? node.name : <br/>}
           </div>
   }
 }
