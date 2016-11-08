@@ -24,7 +24,8 @@ class Shell extends React.Component {
         start: 2,
         end: 2
       },
-      containerIsContentEditable: true
+      containerIsContentEditable: true,
+      rawSelection: getSelection()
     }
   }
 
@@ -38,13 +39,15 @@ class Shell extends React.Component {
     console.log('document.active -- before comDidUpdate', isEditable, document.activeElement)
     if (isEditable) container.focus()
     console.log('document.active -- after comDidUpdate', document.activeElement)
+    console.log('compDidUpdate -- nodes', this.state.nodes.toJS())
   }
 
   changeName(id, selection) {
     const newState = {
       nodes: this.state.nodes.set(id, {id, name: '12345678', isContentEditable: true}),
       selection: selection || this.state.selection,
-      containerIsContentEditable: this.state.containerIsContentEditable
+      containerIsContentEditable: this.state.containerIsContentEditable,
+      rawSelection: getSelection()
     }
     this.setState(newState)
   }
@@ -57,7 +60,8 @@ class Shell extends React.Component {
     const newState = {
       nodes: this.state.nodes.map(node => Object.assign({}, node, {isContentEditable: null})),
       selection: this.state.selection,
-      containerIsContentEditable: true
+      containerIsContentEditable: true,
+      rawSelection: getSelection()
     }
     this.setState(newState)
   }
@@ -66,7 +70,8 @@ class Shell extends React.Component {
     const newState = {
       nodes: this.state.nodes.map(node => Object.assign({}, node, {isContentEditable: true})),
       selection: this.state.selection,
-      containerIsContentEditable: null
+      containerIsContentEditable: null,
+      rawSelection: getSelection()
     }
     this.setState(newState)
     const container = this.getContainer()
@@ -80,6 +85,22 @@ class Shell extends React.Component {
 
   handleMouseUp() {
     // this.makeNodesContentEditable()
+  }
+
+  // createNodeAfter(id) {
+    
+  // }
+
+  createNode() {
+    const newId = uuid.v4()
+    const newState = {
+      nodes: this.state.nodes.set(newId, {id: newId, name: '', isContentEditable: this.state.containerIsContentEditable ? null : true}),
+      selection: this.state.selection,
+      containerIsContentEditable: this.state.containerIsContentEditable,
+      rawSelection: getSelection()
+    }
+    console.log('newState.nodes', newState.nodes.toJS())
+    this.setState(newState)
   }
 
   handleKeyDown(e) {
@@ -109,6 +130,14 @@ class Shell extends React.Component {
       domNode.focus()
     }
 
+    if (e.keyCode === 13) { // enter
+      console.log('e.keycode enter container')
+      e.preventDefault()
+      this.makeNodesContentEditable()
+      // this.createNode() // createNodeAfter
+      return
+    }
+
     if (~[37,38,39,40,16,17,18,224].indexOf(e.keyCode)) { // down arrow
       this.makeParentContentEditable()
     }
@@ -117,6 +146,7 @@ class Shell extends React.Component {
   }
 
   render() {
+    console.log('container render', this.state.nodes.toJS())
     return <div className={styles.main}>
       <div className={styles.sidebar}>
       </div>
@@ -134,7 +164,9 @@ class Shell extends React.Component {
             <ContentEditableLine 
               node={node}
               selection={this.state.selection}
+              rawSelection={this.state.rawSelection}
               changeName={::this.changeName}
+              createNode={::this.createNode}
             />
           ))}
         </div>
