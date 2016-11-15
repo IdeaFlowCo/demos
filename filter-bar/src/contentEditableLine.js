@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './shell.styl'
-import { setCharRange } from './selectionModel'
+import { setCharRange, restoreCustomBookMark } from './selectionModel'
 import ReactDOM from 'react-dom'
 
 
@@ -17,33 +17,33 @@ class ContentEditableLine extends React.Component {
     // }
   }
 
-  handleClick() {
-    const { node, changeName } = this.props
-    if (node.isContentEditable) {
-      changeName(node.id)
+  handleKeyDown(e) {
+    console.log('handle key down -- content line')
+    if (e.keyCode === 13) { // enter
+      console.log('enter key content line')
     }
   }
 
   componentDidUpdate() {
-    const { selection, node } = this.props
-    // if (node.isContentEditable) {
-    //   const domNode = ReactDOM.findDOMNode(this)
-    //   if (selection.nodeId === node.id) {
-    //     setCharRange(domNode, selection)
-    //     domNode.focus()
-    //   }
-    // }
+    const { selection, node, rawSelection } = this.props
+    console.log('rawSelection', rawSelection)
+    const domNode = ReactDOM.findDOMNode(this)
+    console.log('containes selection', )
+    if (node.isContentEditable && domNode.contains(rawSelection.anchorNode)) {
+      setCharRange(rawSelection.anchorNode, {start: rawSelection.anchorOffset, end:rawSelection.anchorOffset})
+      domNode.focus()
+    }
   }
 
   render() {
-    const { node, changeName } = this.props
+    const { node } = this.props
 
     return <div
             contentEditable={node.isContentEditable}
             className={styles.contenteditableLine}
-            onClick={::this.handleClick}
+            onKeyDown={::this.handleKeyDown}
           >
-            {node.name}
+            {node.name ? node.name : <br/>}
           </div>
   }
 }
